@@ -11,6 +11,6 @@ export default class BackendHelpers {
 
   // Adds order for a specific store
   static addOrder = (storeName, orderData) => {
-    firebase.database().ref('/store/' + name + '/orders').push().set(orderData)
+    firebase.database().ref('/store/' + storeName + '/orders').push().set(orderData)
   }
 }
