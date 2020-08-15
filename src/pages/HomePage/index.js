@@ -31,7 +31,7 @@ class HomePage extends Component {
 
         <div className={classes.centerContainer}>
           <div className={classes.title}>
-            <Typography variant="h1">[Name Goes Here]</Typography>
+            <Typography variant="h1">ismyfoodready</Typography>
           </div>
           <Fab
             className={classes.bigButton}

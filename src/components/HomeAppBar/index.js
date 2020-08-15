@@ -113,7 +113,7 @@ class HomeAppBar extends React.Component {
               noWrap
             >
               <Link style={{ textDecoration: 'none', color: 'black' }} to="/">
-                [Insert Name Here]
+              ismyfoodready
               </Link>
             </Typography>
             <div className={classes.grow} />

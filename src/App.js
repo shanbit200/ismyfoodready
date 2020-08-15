@@ -68,11 +68,22 @@ class App extends Component {
               path="/"
               render={() => (
                 <div>
-                  <HomeAppBar user={this.state.user} />
+                  {/* <HomeAppBar user={this.state.user} /> */}
                   <HomePage
                     definitions={this.state.definitions}
                     categories={this.state.categories}
                   />
+                   <div className="footer" style={{
+                     marginTop:"1rem",
+                     padding:"1rem",
+                     backgroundColor:"rgb(235, 195, 64)",
+                     position:"fixed",
+                     bottom:0,
+                     left:0,
+                     width:"100%"
+                   }}>
+                    <p>Joe Biden Action Committee</p>
+                  </div>
                 </div>
               )}
             />
