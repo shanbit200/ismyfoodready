@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import firebase from 'firebase';
 import HomePage from './pages/HomePage';
+import AddStorePage from './pages/AddStorePage';
 import HomeAppBar from './components/HomeAppBar';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
@@ -10,14 +11,14 @@ import { withSnackbar } from 'notistack';
 
 // Configure Firebase.
 const config = {
-  apiKey: "AIzaSyB0auz8OH8Q_r7woChe3XsAFkgvG4kpIi0",
-  authDomain: "is-order-ready.firebaseapp.com",
-  databaseURL: "https://is-order-ready.firebaseio.com",
-  projectId: "is-order-ready",
-  storageBucket: "is-order-ready.appspot.com",
-  messagingSenderId: "730041959035",
-  appId: "1:730041959035:web:7e2d0f69c0633534c898de",
-  measurementId: "G-HGLYB2QN8G"
+  apiKey: 'AIzaSyB0auz8OH8Q_r7woChe3XsAFkgvG4kpIi0',
+  authDomain: 'is-order-ready.firebaseapp.com',
+  databaseURL: 'https://is-order-ready.firebaseio.com',
+  projectId: 'is-order-ready',
+  storageBucket: 'is-order-ready.appspot.com',
+  messagingSenderId: '730041959035',
+  appId: '1:730041959035:web:7e2d0f69c0633534c898de',
+  measurementId: 'G-HGLYB2QN8G',
 };
 
 class App extends Component {
@@ -73,20 +74,24 @@ class App extends Component {
                     definitions={this.state.definitions}
                     categories={this.state.categories}
                   />
-                   <div className="footer" style={{
-                     marginTop:"1rem",
-                     padding:"1rem",
-                     backgroundColor:"rgb(235, 195, 64)",
-                     position:"fixed",
-                     bottom:0,
-                     left:0,
-                     width:"100%"
-                   }}>
+                  <div
+                    className="footer"
+                    style={{
+                      marginTop: '1rem',
+                      padding: '1rem',
+                      backgroundColor: 'rgb(235, 195, 64)',
+                      position: 'fixed',
+                      bottom: 0,
+                      left: 0,
+                      width: '100%',
+                    }}
+                  >
                     <p>Joe Biden Action Committee</p>
                   </div>
                 </div>
               )}
             />
+            <Route exact path="/addStore" render={() => <AddStorePage />} />
           </Switch>
         </Router>
       </div>

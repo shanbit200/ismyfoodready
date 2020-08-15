@@ -2,22 +2,19 @@ import React from 'react';
 import {
   withStyles,
   Typography,
-  Grid,
   TextField,
   CssBaseline,
   Button,
 } from '@material-ui/core';
-import BackendHelpers from '../../utils/BackendHelpers';
 import { withSnackbar } from 'notistack';
-import Select from 'react-select';
-import TermRequestModal from '../../components/TermRequestModal';
+import BackendHelpers from '../../utils/BackendHelpers';
 
 const styles = () => {
   return {
     page: {
       marginLeft: 'auto',
       marginRight: 'auto',
-      maxWidth: 1000,
+      maxWidth: 500,
       width: '95%',
     },
     textField: {
@@ -57,102 +54,92 @@ class AddStorePage extends React.Component {
       storeName: undefined,
       authorizedEmployees: undefined,
       address: undefined,
+      nameError: false,
+      emailError: false,
+      addressError: false,
+      addButton: false,
     };
   }
 
-  // Validates form before submission
-  validate = () => {
-    const { term, definition } = this.state;
-    let error = false;
-    if (!term || term === '' || this.props.definitions[term]) {
-      this.setState({ termError: true });
-      this.props.enqueueSnackbar('Error: invalid term name');
-      error = true;
-    } else {
-      this.setState({ termError: false });
-    }
-    if (!definition || definition === '') {
-      this.setState({ definitionError: true });
-      this.props.enqueueSnackbar('Error: invalid definition');
-      error = true;
-    } else {
-      this.setState({ definitionError: false });
-    }
-    return !error;
-  };
-
   render() {
-    const { classes, user } = this.props;
-
-    // Check for uri change
-    const uri = window.location.pathname.split('/')[2];
-    if (uri) {
-      const decodedUri = decodeURIComponent(uri);
-      if (this.state.uri !== uri) {
-        this.handleParentChange({ value: decodedUri, label: decodedUri });
-        this.setState({ uri: decodedUri });
-        return <CssBaseline />;
-      }
-    }
+    const { classes } = this.props;
 
     return (
       <div className={classes.page}>
         <CssBaseline />
 
-        {/* ADD NEW TERM SECTION */}
+        {/* ADD NEW STORE SECTION */}
         <div>
           <Typography variant="h4">
             <b>Add Store Page</b>
           </Typography>
-          <Grid container spacing={4}>
-            <Grid item>
-              <div className={classes.fieldItem}>
-                <Typography variant="h6">
-                  <b>Store Name</b>
-                </Typography>
-                <TextField
-                  error={this.state.termError}
-                  className={classes.textField}
-                  variant="outlined"
-                  value={this.state.term}
-                  onChange={(evt) => this.setState({ term: evt.target.value })}
-                />
-              </div>
-              <div className={classes.fieldItem}>
-                <Typography variant="h6">
-                  <b>Definition</b>
-                </Typography>
-                <TextField
-                  error={this.state.definitionError}
-                  className={classes.textField}
-                  variant="outlined"
-                  multiline
-                  rows="5"
-                  value={this.state.definition}
-                  onChange={(evt) =>
-                    this.setState({ definition: evt.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <Button
-                  className={classes.addButton}
-                  variant="contained"
-                  onClick={() => {
-                    if (this.validate()) {
-                      this.props.enqueueSnackbar('Successfully added store.');
-                    }
-                  }}
-                >
-                  Add Term
-                </Button>
-              </div>
-            </Grid>
-          </Grid>
+          <div className={classes.fieldItem}>
+            <Typography variant="h6">
+              <b>Store Name</b>
+            </Typography>
+            <TextField
+              error={!this.state.storeName}
+              className={classes.textField}
+              variant="outlined"
+              value={this.state.storeName}
+              onChange={(evt) => this.setState({ storeName: evt.target.value })}
+            />
+          </div>
+          <div className={classes.fieldItem}>
+            <Typography variant="h6">
+              <b>Authorized Employee Emails</b>
+            </Typography>
+            <TextField
+              error={!this.state.authorizedEmployees}
+              className={classes.textField}
+              variant="outlined"
+              multiline
+              rows="5"
+              value={this.state.authorizedEmployees}
+              onChange={(evt) =>
+                this.setState({ authorizedEmployees: evt.target.value })
+              }
+            />
+          </div>
+          <div className={classes.fieldItem}>
+            <Typography variant="h6">
+              <b>Address</b>
+            </Typography>
+            <TextField
+              error={!this.state.address}
+              className={classes.textField}
+              variant="outlined"
+              value={this.state.address}
+              onChange={(evt) => this.setState({ address: evt.target.value })}
+            />
+          </div>
+          <div>
+            <Button
+              className={classes.addButton}
+              variant="contained"
+              onClick={() => {
+                if (
+                  this.state.storeName &&
+                  this.state.authorizedEmployees &&
+                  this.state.address
+                ) {
+                  this.props.enqueueSnackbar('Successfully added store.');
+                  BackendHelpers.addStore(this.state.storeName, {
+                    authorizedEmployees: this.state.authorizedEmployees.split(
+                      ','
+                    ),
+                    address: this.state.address,
+                  });
+                }
+              }}
+            >
+              Add Store
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(withSnackbar(AddTermPage));
+export default withStyles(styles)(withSnackbar(AddStorePage));
