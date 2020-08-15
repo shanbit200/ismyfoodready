@@ -13,4 +13,8 @@ export default class BackendHelpers {
   static addOrder = (storeName, orderData) => {
     firebase.database().ref('/store/' + name + '/orders').push().set(orderData)
   }
+  
+  static getOrder = (id) => {
+    
+  }
 }
