@@ -132,6 +132,7 @@ class AddTermPage extends React.Component {
                 onClick={() => {
                   BackendHelpers.addOrder(
                     'Burger King',
+                    Math.random().toString(36).substring(7).slice(0,4).toUpperCase(),
                     this.state.CustomerName,
                     this.state.CashierName,
                     this.state.OrderItems,
