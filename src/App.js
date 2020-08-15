@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import firebase from 'firebase';
 import HomePage from './pages/HomePage';
+import AddModifyOrdersPage from './pages/AddModifyOrdersPage';
 import HomeAppBar from './components/HomeAppBar';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
@@ -87,6 +88,7 @@ class App extends Component {
                 </div>
               )}
             />
+            <Route exact path="/AddModifyOrders" render={() => <AddModifyOrdersPage />} />
           </Switch>
         </Router>
       </div>
