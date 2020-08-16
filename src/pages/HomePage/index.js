@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './ismyfoodreadylogo.svg'
+import logo from '../../images/logo.png'
 import { ReactSVG } from 'react-svg'
 import {
   withStyles,
