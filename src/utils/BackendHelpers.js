@@ -5,7 +5,6 @@ const BACKEND_URL = 'https://asl-stem-backend.herokuapp.com';
 export default class BackendHelpers {
   // Adds a new store with metadata to the database
   static addStore = (name, storeData) => {
-    // TODO: add validation
     firebase
       .database()
       .ref('/store/' + name + '/data')
@@ -44,7 +43,14 @@ export default class BackendHelpers {
   static updateOrderStatus = (storeName, itemId, status) => {
     firebase
       .database()
-      .ref('/store/' + storeName + '/orders' + itemId + '/status')
+      .ref('/store/' + storeName + '/orders/' + itemId + '/status')
       .set(status);
+  };
+
+  static deleteOrder = (storeName, itemId) => {
+    firebase
+      .database()
+      .ref('/store/' + storeName + '/orders/' + itemId)
+      .remove();
   };
 }

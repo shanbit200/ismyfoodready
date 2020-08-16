@@ -240,10 +240,11 @@ class AddTermPage extends React.Component {
                       onClick={() => {
                         this.state.inProgressOrders.splice(index, 1);
                         this.state.readyOrders.push(order);
+                        this.forceUpdate();
                         BackendHelpers.updateOrderStatus(
                           order.storeName,
                           order.databaseId,
-                          'ready'
+                          'Ready'
                         );
                       }}
                       size="small"
@@ -280,8 +281,9 @@ class AddTermPage extends React.Component {
                   <CardActions>
                     <Button
                       onClick={() => {
+                        this.forceUpdate();
                         this.state.readyOrders.splice(index, 1);
-                        // TODO: delete from db
+                        BackendHelpers.deleteOrder(order.storeName, order.itemId)
                       }}
                       size="small"
                     >
