@@ -18,7 +18,11 @@
     "react-scripts": "2.1.8",
     "react-select": "^3.1.0",
     "react-star-rating-component": "^1.4.1",
+<<<<<<< HEAD
     "twilio": "^3.48.2",
+=======
+    "react-svg": "^11.0.35",
+>>>>>>> d1eab012a7e05969a730f5222d436b4375320a7b
     "webfontloader": "^1.6.28",
     "whatwg-fetch": "^3.0.0"
   },

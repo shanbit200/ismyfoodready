@@ -1,0 +1,13 @@
+.flexy-row{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-self: center;
+}
+
+.floxy-col{
+    display: flex;
+    flex-direction:column;
+    align-content: space-around;
+    
+}
