@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from '../../images/logo.png'
-import OrderPage  from '../OrderPages'
+import logo from '../../images/logo.png';
+import OrderPage from '../OrderPages';
 import {
   withStyles,
   Typography,
@@ -16,44 +16,51 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderID: "",
+      orderID: '',
       isValid: false,
-      custName: "",
-      cashName: "",
-      status: "",
-      orderItems: "",
-      fontColor:"",
+      custName: '',
+      cashName: '',
+      status: '',
+      orderItems: '',
+      fontColor: '',
     };
   }
 
   alertOnClick = () => {
-    console.log(logo)
-    if (this.state.orderID !== "") {
-      BackendHelpers.getOrder(this.state.orderID).then(res => {
-        console.log(res)
-        this.setState({ custName: res.custName, cashName: res.cashName, status: res.status, orderItems: res.orderItems })
-        if(res.status === "Ready"){
-          this.setState({fontColor:"green"})
-        }else{
-          this.setState({fontColor:"red"})
-        }
-        console.log(this.state.fontColor)
-        this.setState({isValid: true})
-      }).catch(err => {
-        alert(err)
-      })
+    console.log(logo);
+    if (this.state.orderID !== '') {
+      BackendHelpers.getOrder(this.state.orderID)
+        .then((res) => {
+          console.log(res);
+          this.setState({
+            custName: res.custName,
+            cashName: res.cashName,
+            status: res.status,
+            orderItems: res.orderItems,
+          });
+          if (res.status === 'Ready') {
+            this.setState({ fontColor: 'green' });
+          } else {
+            this.setState({ fontColor: 'red' });
+          }
+          console.log(this.state.fontColor);
+          this.setState({ isValid: true });
+        })
+        .catch((err) => {
+          alert(err);
+        });
     } else {
-      alert("Joe Biden will take all of your melanin")
+      alert('Joe Biden will take all of your melanin');
     }
   };
 
   goBack = () => {
-    this.setState({isValid: !this.state.isValid})
-  }
+    this.setState({ isValid: !this.state.isValid });
+  };
 
   setOrder = (e) => {
-    this.setState({ orderID: e })
-  }
+    this.setState({ orderID: e });
+  };
 
   render() {
     const { classes } = this.props;
@@ -64,35 +71,35 @@ class HomePage extends Component {
 
         <div className={classes.centerContainer}>
           <img className={classes.logo} src={logo} alt="logo"></img>
-          { this.state.isValid ? 
-            <div style={{paddingTop:'100px'}}>
-              <OrderPage custname={this.state.custName} cashname={this.state.cashName} orderid={this.state.orderID} status={this.state.status} orderitems={this.state.orderItems} fontcolor={this.state.fontColor}></OrderPage>
-              <Button
-              variant="contained"
-              onClick={() => this.goBack()}
-              >
+          {this.state.isValid ? (
+            <div style={{ paddingTop: '100px' }}>
+              <OrderPage
+                custname={this.state.custName}
+                cashname={this.state.cashName}
+                orderid={this.state.orderID}
+                status={this.state.status}
+                orderitems={this.state.orderItems}
+                fontcolor={this.state.fontColor}
+              ></OrderPage>
+              <Button variant="contained" onClick={() => this.goBack()}>
                 Back
               </Button>
             </div>
-            :
-            <div style={{paddingTop:'80px'}}>
-              <TextField id="outlined-basic"
+          ) : (
+            <div style={{ paddingTop: '80px' }}>
+              <TextField
+                id="outlined-basic"
                 label="Order No."
                 variant="outlined"
                 onChange={(e) => this.setOrder(e.target.value)}
               />
-              <div style={{paddingTop:'30px'}}>
-                <Button
-                  onClick={() => this.alertOnClick()}
-                  variant="contained"
-                >
-                  Big Button
+              <div style={{ paddingTop: '30px' }}>
+                <Button onClick={() => this.alertOnClick()} variant="contained">
+                  Find My Order
                 </Button>
               </div>
             </div>
-
-          }
-
+          )}
         </div>
       </div>
     );
@@ -104,7 +111,7 @@ const styles = () => {
     bigButton: {
       backgroundColor: 'blue',
       color: 'red',
-      width: 400
+      width: 400,
     },
     page: {
       textAlign: 'center',
@@ -125,9 +132,9 @@ const styles = () => {
       },
     },
     logo: {
-      width: "250px",
-      height: "250px"
-    }
+      width: '250px',
+      height: '250px',
+    },
   };
 };
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import firebase from 'firebase';
 import HomePage from './pages/HomePage';
 import AddStorePage from './pages/AddStorePage';
+import BigScreenPage from './pages/BigScreenPage';
+import EmployeePage from './pages/EmployeePage';
 import AddModifyOrdersPage from './pages/AddModifyOrdersPage';
-import HomeAppBar from './components/HomeAppBar';
+import Footer from './components/Footer';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
 
@@ -30,8 +32,6 @@ class App extends Component {
     this.state = {
       user: undefined,
     };
-
-
   }
 
   componentDidMount() {
@@ -54,25 +54,53 @@ class App extends Component {
                     definitions={this.state.definitions}
                     categories={this.state.categories}
                   />
-                  <div
-                    className="footer"
-                    style={{
-                      marginTop: '1rem',
-                      padding: '1rem',
-                      backgroundColor: 'rgb(235, 195, 64)',
-                      position: 'fixed',
-                      bottom: 0,
-                      left: 0,
-                      width: '100%',
-                    }}
-                  >
-                    <p>Joe Biden Action Committee</p>
-                  </div>
+                  <Footer />
                 </div>
               )}
             />
-            <Route exact path="/addStore" render={() => <AddStorePage />} />
-            <Route exact path="/AddModifyOrders" render={() => <AddModifyOrdersPage />} />
+            <Route
+              exact
+              path="/addStore"
+              render={() => (
+                <div>
+                  <AddStorePage />
+                  <Footer />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/BigScreen"
+              render={() => (
+                <BigScreenPage
+                  storeName={this.state.user ? this.state.user.storeName : null}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/AddModifyOrders"
+              render={() => (
+                <AddModifyOrdersPage
+                  storeName={this.state.user ? this.state.user.storeName : null}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/employeeDashboard"
+              render={() => (
+                <div>
+                  <EmployeePage
+                    signIn={() => this.signIn()}
+                    signOut={() => firebase.auth().signOut()}
+                    user={this.state.user}
+                    initialized={this.state.initialized}
+                  />
+                  <Footer />
+                </div>
+              )}
+            />
           </Switch>
         </Router>
       </div>
