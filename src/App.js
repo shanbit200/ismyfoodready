@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import HomePage from './pages/HomePage';
 import AddStorePage from './pages/AddStorePage';
 import AddModifyOrdersPage from './pages/AddModifyOrdersPage';
+import BigScreenPage from './pages/BigScreenPage'
 import HomeAppBar from './components/HomeAppBar';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
@@ -28,31 +29,9 @@ class App extends Component {
     firebase.initializeApp(config);
 
     this.state = {
-      user: undefined,
     };
 
-    firebase.auth().onAuthStateChanged((user) => {
-      // This will be called when a user logs in, we'll get their info here
-      firebase
-        .database()
-        .ref('/users/' + user.uid)
-        .once('value')
-        .then((snapshot) => {
-          const val = snapshot.val();
-          if (val) {
-            this.setState({
-              user: {
-                username: val.username,
-                name: val.fullname,
-                level: val.level,
-                ratings: val.ratings,
-                email: user.email,
-                uid: user.uid,
-              },
-            });
-          }
-        });
-    });
+  
   }
 
   componentDidMount() {
@@ -93,6 +72,7 @@ class App extends Component {
               )}
             />
             <Route exact path="/addStore" render={() => <AddStorePage />} />
+            <Route exact path="/BigScreen" render={() => <BigScreenPage />} />
             <Route exact path="/AddModifyOrders" render={() => <AddModifyOrdersPage />} />
           </Switch>
         </Router>

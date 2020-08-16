@@ -12,7 +12,6 @@ import BackendHelpers from '../../utils/BackendHelpers';
 import { withSnackbar } from 'notistack';
 import Select from 'react-select';
 import firebase from 'firebase';
-import TermRequestModal from '../../components/TermRequestModal';
 
 const styles = () => {
   return {
@@ -29,7 +28,7 @@ const styles = () => {
 class BigScreenPage extends React.Component {
   constructor(props) {
     super(props);
-    this.database = firebase.database().ref("store/Alan's Chicken Nuggets/Orders");
+    this.database = firebase.database().ref("store/Burger King/orders");
 
     this.state = {
       orders:[]
@@ -41,6 +40,7 @@ class BigScreenPage extends React.Component {
  
     this.database.on('value', snapshot => {
         const orderObject = snapshot.val();
+        console.log(orderObject)
         if (orderObject) {
             const orderList = Object.keys(orderObject).map(key => {
                return({
@@ -52,7 +52,7 @@ class BigScreenPage extends React.Component {
 
                 })
             });
-          
+            
             this.setState({ orders: orderList });
         }
         // convert messages list from snapshot
@@ -61,10 +61,13 @@ class BigScreenPage extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.database.off();
+  }
+
   
 
   render() {
-    const { classes, user } = this.props;
 
     // Check for uri change
     
@@ -72,6 +75,7 @@ class BigScreenPage extends React.Component {
 
     return (
       <div>
+          <div>hello</div>
           {this.state.orders.map(order=>
             {return <div className ='flex'>{order['cashier']+order['customer']+order['status']}</div>})}
       </div>
