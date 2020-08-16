@@ -47,4 +47,15 @@ export default class BackendHelpers {
       .ref('/store/' + storeName + '/orders' + itemId + '/status')
       .set(status);
   };
+
+  static getOrder = (ID) => {
+    console.log(ID)
+    var ref = firebase.database().ref('store')
+    ref.once("value")
+      .then(function(snapshot) {
+        var key = snapshot.key; // "ada"
+        console.log(key)
+  });
+
+  }
 }

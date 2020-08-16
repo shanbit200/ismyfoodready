@@ -16,7 +16,7 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderNo: "",
+      orderID: "",
       orderFakeDB: {
         "1014": {
           customerName: "Alan Brilliant",
@@ -26,20 +26,20 @@ class HomePage extends Component {
         }
       },
       isValid: false,
-      customerName: "",
-      cashierName: "",
-      orderStatus: "",
-      item: "",
+      custName: "",
+      cashName: "",
+      status: "",
+      orderItems: "",
     };
   }
 
   alertOnClick = () => {
     console.log(logo)
-    if (this.state.orderNo !== "") {
-      BackendHelpers.getOrder(this.state.orderNo)
-      if (this.state.orderNo in this.state.orderFakeDB) {
+    if (this.state.orderID !== "") {
+      BackendHelpers.getOrder(this.state.orderID)
+      if (this.state.orderID in this.state.orderFakeDB) {
         console.log(this.state.orderFakeDB['1014']);
-        this.setState({ customerName: this.state.orderFakeDB['1014'].customerName, cashierName: this.state.orderFakeDB['1014'].cashierName, orderStatus: this.state.orderFakeDB['1014'].orderStatus, item: this.state.orderFakeDB['1014'].item })
+        this.setState({ custName: this.state.orderFakeDB['1014'].customerName, cashName: this.state.orderFakeDB['1014'].cashierName, status: this.state.orderFakeDB['1014'].orderStatus, orderItems: this.state.orderFakeDB['1014'].item })
         this.setState({isValid:true})
       } else {
         alert("Wee woo, wrong order number!")
@@ -49,8 +49,12 @@ class HomePage extends Component {
     }
   };
 
+  goBack = () => {
+    this.setState({isValid: !this.state.isValid})
+  }
+
   setOrder = (e) => {
-    this.setState({ orderNo: e })
+    this.setState({ orderID: e })
   }
 
   render() {
@@ -64,14 +68,20 @@ class HomePage extends Component {
           <img className={classes.logo} src={logo} alt="logo"></img>
           <div className={classes.title}>
             <ReactSVG src={classes.logo} />
-
-            {/* <Typography variant="h1">ismyfoodready</Typography> */}
           </div>
-          {this.state.isValid ? <div>
-              <Typography>Customer Name: {this.state.customerName}</Typography>
-              <Typography>Cashier Name: {this.state.cashierName}</Typography>
-              <Typography>Item Ordered: {this.state.item}</Typography>
-              <Typography>Order Status: {this.state.orderStatus}</Typography> 
+          { this.state.isValid ? 
+            <div>
+              <Typography>Order ID: {this.state.orderID}</Typography>
+              <Typography>Customer Name: {this.state.custName}</Typography>
+              <Typography>Cashier Name: {this.state.cashName}</Typography>
+              <Typography>Item Ordered: {this.state.orderItems}</Typography>
+              <Typography>Order Status: {this.state.status}</Typography> 
+              <Button
+              variant="contained"
+              onClick={() => this.goBack()}
+              >
+                Back
+              </Button>
             </div>
             :
             <div>
