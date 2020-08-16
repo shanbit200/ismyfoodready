@@ -100,11 +100,23 @@ class App extends Component {
               )}
             />
             <Route exact path="/addStore" render={() => <AddStorePage />} />
-            <Route exact path="/BigScreen" render={() => <BigScreenPage />} />
+            <Route
+              exact
+              path="/BigScreen"
+              render={() => (
+                <BigScreenPage
+                  storeName={this.state.user ? this.state.user.storeName : null}
+                />
+              )}
+            />
             <Route
               exact
               path="/AddModifyOrders"
-              render={() => <AddModifyOrdersPage />}
+              render={() => (
+                <AddModifyOrdersPage
+                  storeName={this.state.user ? this.state.user.storeName : null}
+                />
+              )}
             />
             <Route
               exact
