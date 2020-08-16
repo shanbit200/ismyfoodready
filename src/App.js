@@ -9,6 +9,7 @@ import AddModifyOrdersPage from './pages/AddModifyOrdersPage';
 import Footer from './components/Footer';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
+import BackendHelpers from './utils/BackendHelpers';
 
 /* eslint react/no-direct-mutation-state: "off"*/
 
@@ -31,12 +32,39 @@ class App extends Component {
 
     this.state = {
       user: undefined,
+      initialized: false,
     };
+
+    firebase.auth().onAuthStateChanged((user) => {
+      // This will be called when a user logs in, we'll get their info here
+      if (user) {
+        BackendHelpers.getStore(user.email)
+          .then((result) => {
+            this.setState({
+              user: {
+                name: user.displayName,
+                email: user.email,
+                uid: user.uid,
+                storeName: result.storeName,
+                storeAddress: result.storeAddress,
+              },
+              initialized: true,
+            });
+          })
+          .catch((error) => {
+            alert(error);
+            firebase.auth().signOut();
+          });
+      } else {
+        this.setState({ initialized: true });
+      }
+    });
   }
 
-  componentDidMount() {
-    // Do stuff on mount here
-  }
+  signIn = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  };
 
   render() {
     return (
@@ -93,7 +121,10 @@ class App extends Component {
                 <div>
                   <EmployeePage
                     signIn={() => this.signIn()}
-                    signOut={() => firebase.auth().signOut()}
+                    signOut={() => {
+                      firebase.auth().signOut();
+                      this.setState({ user: undefined });
+                    }}
                     user={this.state.user}
                     initialized={this.state.initialized}
                   />
