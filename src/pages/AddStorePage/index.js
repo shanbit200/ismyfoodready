@@ -9,6 +9,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
+import storeImage from '../../images/store.png';
 import BackendHelpers from '../../utils/BackendHelpers';
 
 const styles = () => {
@@ -57,6 +58,7 @@ class AddStorePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      createdStore: false,
       storeName: undefined,
       authorizedEmployees: undefined,
       address: undefined,
@@ -71,6 +73,10 @@ class AddStorePage extends React.Component {
   render() {
     const { classes } = this.props;
 
+    if (this.state.createdStore) {
+      window.location.href = '/employeeDashboard';
+    }
+
     return (
       <div className={classes.page}>
         <CssBaseline />
@@ -82,7 +88,7 @@ class AddStorePage extends React.Component {
               <div>
                 <img
                   style={{ maxWidth: '100%' }}
-                  src={require('../../images/store.png')}
+                  src={storeImage}
                   alt="A minamalist store icon"
                 />
               </div>
@@ -109,6 +115,9 @@ class AddStorePage extends React.Component {
                 <div className={classes.fieldItem}>
                   <Typography variant="h6">
                     <b>Authorized Employee Emails</b>
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    <i>Separate emails by commas</i>
                   </Typography>
                   <TextField
                     error={
@@ -157,6 +166,7 @@ class AddStorePage extends React.Component {
                           ),
                           address: this.state.address,
                         });
+                        this.setState({ createdStore: true });
                       }
                       this.setState({ initialLoad: false });
                     }}
