@@ -142,8 +142,6 @@ class AddTermPage extends React.Component {
                 error={this.state.definitionError}
                 className={classes.textField}
                 variant="outlined"
-                multiline
-                rows="5"
                 value={this.state.PhoneNumber}
                 onChange={(evt) =>
                   this.setState({ PhoneNumber: evt.target.value })
