@@ -31,28 +31,7 @@ class App extends Component {
       user: undefined,
     };
 
-    firebase.auth().onAuthStateChanged((user) => {
-      // This will be called when a user logs in, we'll get their info here
-      firebase
-        .database()
-        .ref('/users/' + user.uid)
-        .once('value')
-        .then((snapshot) => {
-          const val = snapshot.val();
-          if (val) {
-            this.setState({
-              user: {
-                username: val.username,
-                name: val.fullname,
-                level: val.level,
-                ratings: val.ratings,
-                email: user.email,
-                uid: user.uid,
-              },
-            });
-          }
-        });
-    });
+
   }
 
   componentDidMount() {
