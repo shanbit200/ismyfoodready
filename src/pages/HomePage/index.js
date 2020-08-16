@@ -125,8 +125,8 @@ const styles = () => {
       },
     },
     logo: {
-      width: "200px",
-      height: "200px"
+      width: "250px",
+      height: "250px"
     }
   };
 };

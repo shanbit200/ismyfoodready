@@ -3,11 +3,13 @@ import {
   withStyles,
   Typography,
   CssBaseline,
+  Card,
   ButtonBase,
   Fab,
 } from '@material-ui/core';
-import cashierImage from '../../images/cashier.jpg';
-import screenImage from '../../images/screen.jpg';
+import cashierImage from '../../images/cashier.png';
+import screenImage from '../../images/tv.png';
+import logo from '../../images/logo.png';
 
 import { withRouter, useHistory, Link } from 'react-router-dom';
 
@@ -23,105 +25,91 @@ class EmployeePage extends Component {
       <div className={classes.page}>
         <CssBaseline />
         <div className={classes.centerContainer}>
-          <div className={classes.title}>
-            <Typography variant="h2">
-              <u>Employee Control Panel</u>
-            </Typography>
-          </div>
+          <div className={classes.title}></div>
           {user ? (
-            <div style={{ paddingTop: '2em' }}>
-              <div style={{ paddingBottom: '2em' }}>
-                <Typography variant="h3" gutterBottom>
-                  {user.storeName}
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom>
-                  {user.storeAddress}
+            <div
+              style={{
+                paddingTop: '2em',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              <div
+                style={{
+                  maxWidth: 1000,
+                  paddingLeft: 100,
+                  marginBottom: '2em',
+                }}
+              >
+                <Card style={{ boxShadow: '2px 4px 5px #888888', padding: 25 }}>
+                  <Typography variant="h2">Employee Control Panel</Typography>
+                  <Typography variant="subtitle1" gutterBottom>
+                    <b>Store:</b> {user.storeName}
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom>
+                    <b>Address:</b> {user.storeAddress}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    <b>Employee:</b> {user.name ? user.name : user.email},{' '}
+                    <Link onClick={() => this.props.signOut}>
+                      <u>Sign Out</u>
+                    </Link>
+                  </Typography>
+                  <Typography variant="subtitle1" style={{ marginTop: 10 }}>
+                    <i>Select view below</i>
+                  </Typography>
+                </Card>
+              </div>
+              <Card className={classes.card}>
+                <Typography variant="h3" style={{ marginTop: 5 }}>
+                  Cashier Mode
                 </Typography>
                 <Typography variant="subtitle1">
-                  Employee: {user.name ? user.name : user.email},{' '}
-                  <a
-                    onClick={this.props.signOut}
-                    className={classes.hover}
-                    style={{
-                      color: 'purple',
-                    }}
-                  >
-                    <u>Sign Out</u>
-                  </a>
+                  Manage customer orders
                 </Typography>
-              </div>
-              <Link to="/AddModifyOrders">
-                <ButtonBase
-                  focusRipple
-                  key={'Add Or Modify Orders'}
-                  className={classes.image}
-                  focusVisibleClassName={classes.focusVisible}
-                  style={{
-                    width: 500,
-                    height: 400,
-                  }}
-                >
-                  <span
-                    className={classes.imageSrc}
-                    style={{
-                      backgroundImage: `url(${cashierImage})`,
-                    }}
+                <Link to="/AddModifyOrders">
+                  <img
+                    src={cashierImage}
+                    alt="Cashier Image Button"
+                    style={{ width: 400, height: 400 }}
                   />
-                  <span className={classes.imageBackdrop} />
-                  <span className={classes.imageButton}>
-                    <Typography
-                      component="span"
-                      variant="h3"
-                      color="inherit"
-                      className={classes.imageTitle}
-                    >
-                      Cashier Mode
-                      <span className={classes.imageMarked} />
-                    </Typography>
-                  </span>
-                </ButtonBase>
-              </Link>
-              <Link to="/BigScreen">
-                <ButtonBase
-                  focusRipple
-                  key={'Big Screen'}
-                  className={classes.image}
-                  focusVisibleClassName={classes.focusVisible}
-                  style={{
-                    width: 500,
-                    height: 400,
-                    marginLeft: '2em',
-                  }}
-                >
-                  <span
-                    className={classes.imageSrc}
-                    style={{
-                      backgroundImage: `url(${screenImage})`,
-                    }}
+                </Link>
+              </Card>
+              <Card className={classes.card} style={{ marginLeft: '4em' }}>
+                <Typography variant="h3" style={{ marginTop: 5 }}>
+                  Big Screen Mode
+                </Typography>
+                <Typography variant="subtitle1">
+                  Show order statuses on the big screen
+                </Typography>
+                <Link to="/BigScreen">
+                  <img
+                    src={screenImage}
+                    alt="Cashier Image Button"
+                    style={{ width: 400, height: 400 }}
                   />
-                  <span className={classes.imageBackdrop} />
-                  <span className={classes.imageButton}>
-                    <Typography
-                      component="span"
-                      variant="h3"
-                      color="inherit"
-                      className={classes.imageTitle}
-                    >
-                      Big Screen Mode
-                      <span className={classes.imageMarked} />
-                    </Typography>
-                  </span>
-                </ButtonBase>
-              </Link>
+                </Link>
+              </Card>
             </div>
           ) : (
             <div style={{ paddingTop: '5em' }}>
+              <div style={{ marginBottom: '4em' }}>
+                <img src={logo} style={{ width: 250 }} />
+              </div>
+              <div style={{ marginBottom: '2em' }}>
+                <Typography variant="h4">Employee Dashboard</Typography>
+              </div>
               <img
                 src={require('../../images/signInButton.png')}
                 alt="Sign in with Google"
                 className={classes.hover}
                 onClick={() => this.props.signIn()}
               />
+              <div style={{ marginTop: 10 }}>
+                <Link to="/">
+                  <Typography variant="subtitle1">Go Home</Typography>
+                </Link>
+              </div>
             </div>
           )}
         </div>
@@ -130,7 +118,7 @@ class EmployeePage extends Component {
   }
 }
 
-const styles = (theme) => {
+const styles = () => {
   return {
     bigButton: {
       backgroundColor: 'blue',
@@ -139,6 +127,9 @@ const styles = (theme) => {
     },
     page: {
       textAlign: 'center',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      maxWidth: 1100,
     },
     title: {
       marginBottom: '2em',
@@ -153,71 +144,12 @@ const styles = (theme) => {
         cursor: 'pointer',
       },
     },
-    image: {
-      position: 'relative',
-      height: 200,
-      [theme.breakpoints.down('xs')]: {
-        width: '100% !important', // Overrides inline-style
-        height: 100,
-      },
-      '&:hover, &$focusVisible': {
-        zIndex: 1,
-        '& $imageBackdrop': {
-          opacity: 0.4,
-        },
-        '& $imageMarked': {
-          opacity: 0,
-        },
-        '& $imageTitle': {
-          border: '4px solid currentColor',
-        },
-      },
-    },
-    focusVisible: {},
-    imageButton: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: theme.palette.common.white,
-    },
-    imageSrc: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center 40%',
-    },
-    imageBackdrop: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundColor: theme.palette.common.black,
-      opacity: 0.7,
-      transition: theme.transitions.create('opacity'),
-    },
-    imageTitle: {
-      position: 'relative',
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-        theme.spacing(1) + 6
-      }px`,
-    },
-    imageMarked: {
-      height: 3,
-      width: 18,
-      backgroundColor: theme.palette.common.white,
-      position: 'absolute',
-      bottom: -2,
-      left: 'calc(50% - 9px)',
-      transition: theme.transitions.create('opacity'),
+    card: {
+      width: '100%',
+      maxWidth: 500,
+      display: 'inline-block',
+      marginTop: '2em',
+      boxShadow: '4px 7px 7px #888888',
     },
   };
 };
