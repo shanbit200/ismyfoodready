@@ -81,7 +81,10 @@ class AddTermPage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
+
+    const storeName = user && user.storeName ? user.storeName : "Burger King";
+
     return (
       <div className={classes.page}>
         <CssBaseline />
@@ -160,7 +163,7 @@ class AddTermPage extends React.Component {
                     .toUpperCase();
                   BackendHelpers.addOrder(
                     //TODO Populate with the real name
-                    'Burger King',
+                    storeName,
                     id,
                     this.state.CustomerName,
                     this.state.CashierName,
@@ -171,7 +174,7 @@ class AddTermPage extends React.Component {
                     this.state.inProgressOrders.push({
                       databaseId,
                       orderId: id,
-                      storeName: 'Burger King',
+                      storeName: storeName,
                       custName: this.state.CustomerName,
                       cashName: this.state.CashierName,
                       orderItems: this.state.OrderItems,
