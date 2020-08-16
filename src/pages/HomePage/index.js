@@ -9,7 +9,7 @@ import {
   Fab,
   TextField,
 } from '@material-ui/core';
-
+import BackendHelpers from '../../utils/BackendHelpers';
 import { withRouter, useHistory, Link } from 'react-router-dom';
 
 class HomePage extends Component {
@@ -36,7 +36,7 @@ class HomePage extends Component {
   alertOnClick = () => {
     console.log(logo)
     if (this.state.orderNo !== "") {
-      console.log(this.state.orderNo)
+      BackendHelpers.getOrder(this.state.orderNo)
       if (this.state.orderNo in this.state.orderFakeDB) {
         console.log(this.state.orderFakeDB['1014']);
         this.setState({ customerName: this.state.orderFakeDB['1014'].customerName, cashierName: this.state.orderFakeDB['1014'].cashierName, orderStatus: this.state.orderFakeDB['1014'].orderStatus, item: this.state.orderFakeDB['1014'].item })
