@@ -6,12 +6,45 @@ export default class BackendHelpers {
   // Adds a new store with metadata to the database
   static addStore = (name, storeData) => {
     // TODO: add validation
-    firebase.database().ref('/store/' + name + '/data').set(storeData)
+    firebase
+      .database()
+      .ref('/store/' + name + '/data')
+      .set(storeData);
   };
 
   // Adds order for a specific store
-  static addOrder = (storeName, OrderID, CustomerName, CashierName, OrderItems, OrderStatus) => {
-    const orderData = {orderID: OrderID, custName: CustomerName, cashName: CashierName, orderItems: OrderItems, status: OrderStatus}
-    firebase.database().ref('/store/' + storeName + '/orders').push().set(orderData)
-  }
+  static addOrder = (
+    storeName,
+    OrderID,
+    CustomerName,
+    CashierName,
+    OrderItems,
+    OrderStatus
+  ) => {
+    return new Promise((res, err) => {
+      const orderData = {
+        orderID: OrderID,
+        custName: CustomerName,
+        cashName: CashierName,
+        orderItems: OrderItems,
+        status: OrderStatus,
+      };
+      firebase
+        .database()
+        .ref('/store/' + storeName + '/orders')
+        .push()
+        .then((ref) => {
+          ref.set(orderData);
+          res(ref.key);
+        })
+        .catch((error) => err(error));
+    });
+  };
+
+  static updateOrderStatus = (storeName, itemId, status) => {
+    firebase
+      .database()
+      .ref('/store/' + storeName + '/orders' + itemId + '/status')
+      .set(status);
+  };
 }

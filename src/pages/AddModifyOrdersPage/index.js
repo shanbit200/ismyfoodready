@@ -6,41 +6,81 @@ import {
   TextField,
   CssBaseline,
   Button,
-  Snackbar
+  Snackbar,
+  Card,
+  CardActions,
+  CardContent,
 } from '@material-ui/core';
 import Select from 'react-select';
 import BackendHelpers from '../../utils/BackendHelpers';
+const testData = [
+  {
+    cashName: 'Joe Biden',
+    custName: 'Donald Trump',
+    orderID: 'ABCD',
+    orderItems: 'Cornpops',
+    status: 'InProgress',
+  },
+  {
+    cashName: 'Joe Biden',
+    custName: 'Donald Trump',
+    orderID: '5XDT',
+    orderItems: 'Lard',
+    status: 'Ready',
+  },
+  {
+    cashName: 'Joe Biden',
+    custName: 'Mike Pence',
+    orderID: 'ABCD',
+    orderItems: 'Jalepeno Poppers',
+    status: 'InProgress',
+  },
+  {
+    cashName: 'Hillary Clinton',
+    custName: 'Donald Trump',
+    orderID: 'FD56',
+    orderItems: '210 Chicken Nuggets',
+    status: 'Ready',
+  },
+  {
+    cashName: 'Hillary Clinton',
+    custName: 'Mike Pence',
+    orderID: 'MMP0',
+    orderItems: 'Burger King Foot Lettuce',
+    status: 'InProgress',
+  },
+];
 
 const styles = () => {
   return {
     page: {
       marginLeft: 'auto',
       marginRight: 'auto',
-    //maxWidth: 1000,
-      width: '95%'
+      //maxWidth: 1000,
+      width: '95%',
     },
     textField: {
       width: 400,
       maxWidth: '95%',
       '& label.Mui-focused': {
-        color: 'grey'
+        color: 'grey',
       },
       '& .MuiInput-underline:after': {
-        borderBottomColor: 'grey'
+        borderBottomColor: 'grey',
       },
       '& .MuiOutlinedInput-root': {
         '&.Mui-focused fieldset': {
-          borderColor: 'grey'
-        }
-      }
+          borderColor: 'grey',
+        },
+      },
     },
     fieldItem: {
-      marginTop: '1em'
+      marginTop: '1em',
     },
     addButton: {
       textAlign: 'center',
-      marginTop: '2em'
-    }
+      marginTop: '2em',
+    },
   };
 };
 
@@ -59,11 +99,13 @@ class AddTermPage extends React.Component {
       options: [],
       ontology: ['All'],
       termSnack: false,
-      defSnack: false
+      defSnack: false,
+      inProgressOrders: [],
+      readyOrders: [],
     };
   }
 
-  handleParentChange = parent => {
+  handleParentChange = (parent) => {
     let newOntology = [];
     let curr = parent.value;
     while (this.props.definitions[curr]) {
@@ -83,7 +125,7 @@ class AddTermPage extends React.Component {
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Typography variant="h4">
-                <b>Add a New Order</b>
+              <b>Add a New Order</b>
             </Typography>
             <div className={classes.fieldItem}>
               <Typography variant="h6">
@@ -94,7 +136,9 @@ class AddTermPage extends React.Component {
                 className={classes.textField}
                 variant="outlined"
                 value={this.state.CustomerName}
-                onChange={evt => this.setState({ CustomerName: evt.target.value })}
+                onChange={(evt) =>
+                  this.setState({ CustomerName: evt.target.value })
+                }
               />
             </div>
             <div className={classes.fieldItem}>
@@ -106,7 +150,9 @@ class AddTermPage extends React.Component {
                 className={classes.textField}
                 variant="outlined"
                 value={this.state.CashierName}
-                onChange={evt => this.setState({ CashierName: evt.target.value })}
+                onChange={(evt) =>
+                  this.setState({ CashierName: evt.target.value })
+                }
               />
             </div>
             <div className={classes.fieldItem}>
@@ -120,7 +166,7 @@ class AddTermPage extends React.Component {
                 multiline
                 rows="5"
                 value={this.state.OrderItems}
-                onChange={evt =>
+                onChange={(evt) =>
                   this.setState({ OrderItems: evt.target.value })
                 }
               />
@@ -130,21 +176,36 @@ class AddTermPage extends React.Component {
                 className={classes.addButton}
                 variant="contained"
                 onClick={() => {
+                  const id = Math.random()
+                    .toString(36)
+                    .substring(7)
+                    .slice(0, 4)
+                    .toUpperCase();
                   BackendHelpers.addOrder(
+                    //TODO Populate with the real name
                     'Burger King',
-                    Math.random().toString(36).substring(7).slice(0,4).toUpperCase(),
+                    id,
                     this.state.CustomerName,
                     this.state.CashierName,
                     this.state.OrderItems,
                     'InProgress'
-                  );
-                  this.setState({
-                    termError: false,
-                    definitionError: false,
-                    showSuccess: true,
-                    CustomerName: '',
-                    CashierName: '',
-                    OrderItems: '',
+                  ).then((databaseId) => {
+                    this.state.inProgressOrders.push({
+                      databaseId,
+                      orderId: id,
+                      storeName: 'Burger King',
+                      custName: this.state.CustomerName,
+                      cashName: this.state.CashierName,
+                      orderItems: this.state.OrderItems,
+                    });
+                    this.setState({
+                      termError: false,
+                      definitionError: false,
+                      showSuccess: true,
+                      CustomerName: '',
+                      CashierName: '',
+                      OrderItems: '',
+                    });
                   });
                 }}
               >
@@ -154,13 +215,82 @@ class AddTermPage extends React.Component {
           </Grid>
           <Grid item xs={4}>
             <Typography variant="h4">
-                <b>In Progress</b>
+              <b>In Progress</b>
             </Typography>
+            <div>
+              {this.state.inProgressOrders.map((order, index) => (
+                <Card className={classes.root} variant="outlined">
+                  <CardContent>
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                      {order.custName}
+                    </Typography>
+                    <Typography variant="h5" component="h2">
+                      {order.orderItems.toString()}
+                    </Typography>
+                    <Typography className={classes.pos} color="textSecondary">
+                      {order.orderID}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => {
+                        this.state.inProgressOrders.splice(index, 1);
+                        this.state.readyOrders.push(order);
+                        BackendHelpers.updateOrderStatus(
+                          order.storeName,
+                          order.databaseId,
+                          'ready'
+                        );
+                      }}
+                      size="small"
+                    >
+                      Finish Order
+                    </Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </div>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="h4">
-                <b>Fufilled</b>
+              <b>Fufilled</b>
             </Typography>
+            <div>
+              {this.state.readyOrders.map((order, index) => (
+                <Card className={classes.root} variant="outlined">
+                  <CardContent>
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                      {order.custName}
+                    </Typography>
+                    <Typography variant="h5" component="h2">
+                      {order.orderItems.toString()}
+                    </Typography>
+                    <Typography className={classes.pos} color="textSecondary">
+                      {order.orderID}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => {
+                        this.state.readyOrders.splice(index, 1);
+                        // TODO: delete from db
+                      }}
+                      size="small"
+                    >
+                      Delete Order
+                    </Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </div>
           </Grid>
         </Grid>
         <Snackbar
@@ -184,12 +314,12 @@ class AddTermPage extends React.Component {
 }
 
 const colourStyles = {
-  control: styles => ({
+  control: (styles) => ({
     ...styles,
     backgroundColor: '#F7F7F7',
     color: 'black',
     width: 400,
-    marginTop: 10
+    marginTop: 10,
   }),
   option: (styles, { isDisabled, isFocused, isSelected }) => {
     return {
@@ -203,10 +333,9 @@ const colourStyles = {
         : null,
       ':active': {
         ...styles[':active'],
-        backgroundColor: !isDisabled && (isSelected ? 'grey' : 'white')
-      }
+        backgroundColor: !isDisabled && (isSelected ? 'grey' : 'white'),
+      },
     };
-  }
+  },
 };
-
 export default withStyles(styles)(AddTermPage);
