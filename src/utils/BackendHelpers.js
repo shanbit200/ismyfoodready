@@ -59,12 +59,14 @@ export default class BackendHelpers {
           let stores = snapshot.val();
           Object.keys(stores).forEach((storeKey) => {
             let orders = stores[storeKey].orders;
-            Object.keys(orders).forEach((orderKey) => {
-              console.log(orders[orderKey].orderID);
-              if (orders[orderKey].orderID === ID) {
-                res(orders[orderKey]);
-              }
-            });
+            if (orders) {
+              Object.keys(orders).forEach((orderKey) => {
+                console.log(orders[orderKey].orderID);
+                if (orders[orderKey].orderID === ID) {
+                  res(orders[orderKey]);
+                }
+              });
+            }
           });
           err('order not found');
         });
