@@ -51,7 +51,7 @@ class EmployeePage extends Component {
                   </Typography>
                   <Typography variant="subtitle1">
                     <b>Employee:</b> {user.name ? user.name : user.email},{' '}
-                    <Link onClick={() => this.props.signOut}>
+                    <Link onClick={() => this.props.signOut()}>
                       <u>Sign Out</u>
                     </Link>
                   </Typography>
@@ -105,11 +105,6 @@ class EmployeePage extends Component {
                 className={classes.hover}
                 onClick={() => this.props.signIn()}
               />
-              <div style={{ marginTop: 10 }}>
-                <Link to="/">
-                  <Typography variant="subtitle1">Go Home</Typography>
-                </Link>
-              </div>
             </div>
           )}
         </div>

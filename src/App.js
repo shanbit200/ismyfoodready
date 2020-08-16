@@ -32,7 +32,7 @@ class App extends Component {
 
     this.state = {
       user: undefined,
-      initialized: false
+      initialized: false,
     };
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -61,9 +61,10 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-    // Do stuff on mount here
-  }
+  signIn = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  };
 
   render() {
     return (
@@ -120,7 +121,10 @@ class App extends Component {
                 <div>
                   <EmployeePage
                     signIn={() => this.signIn()}
-                    signOut={() => firebase.auth().signOut()}
+                    signOut={() => {
+                      firebase.auth().signOut();
+                      this.setState({ user: undefined });
+                    }}
                     user={this.state.user}
                     initialized={this.state.initialized}
                   />
