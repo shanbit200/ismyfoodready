@@ -104,16 +104,15 @@ class BigScreenPage extends React.Component {
             </Typography>
           </div>
           <Divider height='20px'></Divider>
-          <p>he will not divide us</p>
 
         {this.state.orders.map((order) => {
             if((order['status'] !== 'Ready')  ){
             return (
               <div className= {"flexy-row " }>
-                <Typography variant="h4">
+                <Typography variant="h3">
                   <b>{order['customer']}</b>
                 </Typography>
-                <Typography variant="h4">{order['orderId']}</Typography>
+                <Typography variant="h3">{order['orderId']}</Typography>
               </div>
             );}
           })}
@@ -127,7 +126,6 @@ class BigScreenPage extends React.Component {
             </Typography>
           </div>
           <Divider height='20px'></Divider>
-          <p>he will not divide us</p>
           {this.state.orders.map((order) => {
             if((order['status'] === 'Ready')  ){
             return (
@@ -135,10 +133,10 @@ class BigScreenPage extends React.Component {
                 
 
                 
-                <Typography variant="h4">
+                <Typography variant="h3">
                   <b>{order['customer']}</b>
                 </Typography>
-                <Typography variant="h4">{order['orderId']}</Typography>
+                <Typography variant="h3">{order['orderId']}</Typography>
               </div>
             );}
           })}
