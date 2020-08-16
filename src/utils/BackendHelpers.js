@@ -24,11 +24,11 @@ export default class BackendHelpers {
     return new Promise((res, err) => {
       const orderData = {
         orderID: OrderID,
-        custName: CustomerName,
-        cashName: CashierName,
-        orderItems: OrderItems,
-        phoneNumber: PhoneNumber,
-        status: OrderStatus,
+        custName: CustomerName ? CustomerName : '',
+        cashName: CashierName ? CashierName : '',
+        orderItems: OrderItems ? OrderItems : [],
+        phoneNumber: PhoneNumber ? PhoneNumber : '',
+        status: OrderStatus ? OrderStatus : 'InProgress',
       };
       firebase
         .database()
@@ -51,24 +51,25 @@ export default class BackendHelpers {
 
   static getOrder = (ID) => {
     return new Promise((res, err) => {
-      console.log(ID)
-      let allData = firebase.database().ref('/store').on("value", snapshot => {
-        let stores = snapshot.val();
-        Object.keys(stores).forEach(storeKey => {
-          let orders = stores[storeKey].orders;
-          Object.keys(orders).forEach(orderKey => {
-            console.log(orders[orderKey].orderID)
-            if(orders[orderKey].orderID === ID)
-            {
-              res(orders[orderKey]);
-            }
-          })
-        })
-        err("order not found");
-
-      })
-    })
-  }
+      console.log(ID);
+      let allData = firebase
+        .database()
+        .ref('/store')
+        .on('value', (snapshot) => {
+          let stores = snapshot.val();
+          Object.keys(stores).forEach((storeKey) => {
+            let orders = stores[storeKey].orders;
+            Object.keys(orders).forEach((orderKey) => {
+              console.log(orders[orderKey].orderID);
+              if (orders[orderKey].orderID === ID) {
+                res(orders[orderKey]);
+              }
+            });
+          });
+          err('order not found');
+        });
+    });
+  };
 
   static deleteOrder = (storeName, itemId) => {
     firebase
