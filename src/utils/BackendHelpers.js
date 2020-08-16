@@ -18,6 +18,7 @@ export default class BackendHelpers {
     CustomerName,
     CashierName,
     OrderItems,
+    PhoneNumber,
     OrderStatus
   ) => {
     return new Promise((res, err) => {
@@ -26,6 +27,7 @@ export default class BackendHelpers {
         custName: CustomerName,
         cashName: CashierName,
         orderItems: OrderItems,
+        phoneNumber: PhoneNumber,
         status: OrderStatus,
       };
       firebase
