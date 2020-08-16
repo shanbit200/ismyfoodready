@@ -13,43 +13,6 @@ import {
 } from '@material-ui/core';
 import Select from 'react-select';
 import BackendHelpers from '../../utils/BackendHelpers';
-const testData = [
-  {
-    cashName: 'Joe Biden',
-    custName: 'Donald Trump',
-    orderID: 'ABCD',
-    orderItems: 'Cornpops',
-    status: 'InProgress',
-  },
-  {
-    cashName: 'Joe Biden',
-    custName: 'Donald Trump',
-    orderID: '5XDT',
-    orderItems: 'Lard',
-    status: 'Ready',
-  },
-  {
-    cashName: 'Joe Biden',
-    custName: 'Mike Pence',
-    orderID: 'ABCD',
-    orderItems: 'Jalepeno Poppers',
-    status: 'InProgress',
-  },
-  {
-    cashName: 'Hillary Clinton',
-    custName: 'Donald Trump',
-    orderID: 'FD56',
-    orderItems: '210 Chicken Nuggets',
-    status: 'Ready',
-  },
-  {
-    cashName: 'Hillary Clinton',
-    custName: 'Mike Pence',
-    orderID: 'MMP0',
-    orderItems: 'Burger King Foot Lettuce',
-    status: 'InProgress',
-  },
-];
 
 const styles = () => {
   return {
@@ -171,6 +134,20 @@ class AddTermPage extends React.Component {
                 }
               />
             </div>
+            <div className={classes.fieldItem}>
+              <Typography variant="h6">
+                <b>Phone Number</b>
+              </Typography>
+              <TextField
+                error={this.state.definitionError}
+                className={classes.textField}
+                variant="outlined"
+                value={this.state.PhoneNumber}
+                onChange={(evt) =>
+                  this.setState({ PhoneNumber: evt.target.value })
+                }
+              />
+            </div>
             <div>
               <Button
                 className={classes.addButton}
@@ -188,6 +165,7 @@ class AddTermPage extends React.Component {
                     this.state.CustomerName,
                     this.state.CashierName,
                     this.state.OrderItems,
+                    this.state.PhoneNumber,
                     'InProgress'
                   ).then((databaseId) => {
                     this.state.inProgressOrders.push({
@@ -205,6 +183,7 @@ class AddTermPage extends React.Component {
                       CustomerName: '',
                       CashierName: '',
                       OrderItems: '',
+                      PhoneNumber: ''
                     });
                   });
                 }}
@@ -240,10 +219,11 @@ class AddTermPage extends React.Component {
                       onClick={() => {
                         this.state.inProgressOrders.splice(index, 1);
                         this.state.readyOrders.push(order);
+                        this.forceUpdate();
                         BackendHelpers.updateOrderStatus(
                           order.storeName,
                           order.databaseId,
-                          'ready'
+                          'Ready'
                         );
                       }}
                       size="small"
@@ -280,8 +260,9 @@ class AddTermPage extends React.Component {
                   <CardActions>
                     <Button
                       onClick={() => {
+                        this.forceUpdate();
                         this.state.readyOrders.splice(index, 1);
-                        // TODO: delete from db
+                        BackendHelpers.deleteOrder(order.storeName, order.itemId)
                       }}
                       size="small"
                     >

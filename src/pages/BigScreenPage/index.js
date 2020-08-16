@@ -12,6 +12,8 @@ import BackendHelpers from '../../utils/BackendHelpers';
 import { withSnackbar } from 'notistack';
 import Select from 'react-select';
 import firebase from 'firebase';
+import './App.css';
+
 
 const styles = () => {
   return {
@@ -21,6 +23,8 @@ const styles = () => {
       maxWidth: 1000,
       width: '95%',
     },
+
+
    
   };
 };
@@ -37,6 +41,7 @@ class BigScreenPage extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
+    
  
     this.database.on('value', snapshot => {
         const orderObject = snapshot.val();
@@ -70,14 +75,34 @@ class BigScreenPage extends React.Component {
   render() {
 
     // Check for uri change
-    
+    const { classes } = this.props;
+
     
 
     return (
-      <div>
-          <div>hello</div>
+        
+    <div className={classes.page}>
+
+            
+        
+        <div className='flexy-col'>
           {this.state.orders.map(order=>
-            {return <div className ='flex'>{order['cashier']+order['customer']+order['status']}</div>})}
+          {return (
+              <div className = "flexy-row">
+                 <Typography variant="h6" >
+                    <b>{order['customer']}</b>
+                </Typography>
+                <Typography variant="h6" >
+                    {order['item']}
+                </Typography>
+                <Typography variant="h6" >
+                    {order['status']}
+                </Typography>
+
+              </div>
+           
+          )})}
+          </div>
       </div>
     );
   }

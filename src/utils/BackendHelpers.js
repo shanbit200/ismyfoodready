@@ -5,7 +5,6 @@ const BACKEND_URL = 'https://asl-stem-backend.herokuapp.com';
 export default class BackendHelpers {
   // Adds a new store with metadata to the database
   static addStore = (name, storeData) => {
-    // TODO: add validation
     firebase
       .database()
       .ref('/store/' + name + '/data')
@@ -19,6 +18,7 @@ export default class BackendHelpers {
     CustomerName,
     CashierName,
     OrderItems,
+    PhoneNumber,
     OrderStatus
   ) => {
     return new Promise((res, err) => {
@@ -27,6 +27,7 @@ export default class BackendHelpers {
         custName: CustomerName,
         cashName: CashierName,
         orderItems: OrderItems,
+        phoneNumber: PhoneNumber,
         status: OrderStatus,
       };
       firebase
@@ -44,7 +45,64 @@ export default class BackendHelpers {
   static updateOrderStatus = (storeName, itemId, status) => {
     firebase
       .database()
-      .ref('/store/' + storeName + '/orders' + itemId + '/status')
+      .ref('/store/' + storeName + '/orders/' + itemId + '/status')
       .set(status);
+  };
+
+  static getOrder = (ID) => {
+    return new Promise((res, err) => {
+      console.log(ID)
+      let allData = firebase.database().ref('/store').once('value')
+      .then((snapshot) => {
+        let stores = snapshot.val();
+        Object.keys(stores).forEach(storeKey => {
+          let orders = stores[storeKey].orders;
+          Object.keys(orders).forEach(orderKey => {
+            console.log(orders[orderKey].orderID)
+            if(orders[orderKey].orderID === ID)
+            {
+              res(orders[orderKey]);
+            }
+          })
+        })
+        err("order not found");
+      })
+    })
+  }
+
+  static deleteOrder = (storeName, itemId) => {
+    firebase
+      .database()
+      .ref('/store/' + storeName + '/orders/' + itemId)
+      .remove();
+  };
+
+  static getStore = (userEmail) => {
+    return new Promise((res, err) => {
+      firebase
+        .database()
+        .ref('/store')
+        .once('value')
+        .then((snapshot) => {
+          const stores = snapshot.val();
+          Object.keys(stores).forEach((storeName) => {
+            if (
+              stores[storeName].data &&
+              stores[storeName].data.authorizedEmployees
+            ) {
+              const emailList = stores[storeName].data.authorizedEmployees;
+              Object.keys(emailList).forEach((index) => {
+                if (userEmail === emailList[index]) {
+                  res({
+                    storeName: storeName,
+                    storeAddress: stores[storeName].data.address,
+                  });
+                }
+              });
+            }
+          });
+          err('User not registered in any stores.');
+        });
+    });
   };
 }
