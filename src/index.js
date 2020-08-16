@@ -4,11 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { SnackbarProvider } from 'notistack';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-
 import App from './App';
 
 // Global Theme
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: '"Ubuntu", sans-serif',
+  },
   palette: {
     background: {
       default: '#F7F7F7',
