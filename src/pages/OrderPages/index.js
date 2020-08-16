@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import bag from '../../images/bag.png'
+import cooking from '../../images/cooking.gif'
 import {
     withStyles,
     Typography,
@@ -7,7 +9,9 @@ import {
     Button,
     Fab,
     TextField,
+    Grid,
   } from '@material-ui/core';
+
 
 export default class OrderPage extends Component{
     constructor({orderid, custname, cashname, status, orderitems, fontcolor}){
@@ -56,11 +60,47 @@ export default class OrderPage extends Component{
     render(){
         return(
             <div>
-            <Typography>Order ID: {this.state.orderID}</Typography>
-            <Typography>Customer Name: {this.state.custName}</Typography>
-            <Typography>Cashier Name: {this.state.cashName}</Typography>
-            <Typography>Item Ordered: {this.state.orderItems}</Typography>
-            <Typography style={{color:this.state.fontColor}}>Order Status: {this.state.status}</Typography> 
+              <Grid
+                container
+                direction="row"
+                justify="center"
+              >
+                <div style={{textAlign:'right', paddingRight: '20px'}}>
+                  <Grid item xs={12}>
+                    <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    >
+                      <Typography>Order ID:</Typography>
+                      <Typography>Customer Name:</Typography>
+                      <Typography>Cashier Name:</Typography>
+                      <Typography>Item Ordered:</Typography>
+                      <Typography style={{color:this.state.fontColor}}>Order Status:</Typography>
+                    </Grid>
+
+                  </Grid>
+
+                </div>
+                <div style={{textAlign:'left', paddingBottom: '10px'}}>
+                  <Grid item xs={12}>
+                    <Grid
+                      container
+                      direction="column"
+                      justify="center"
+                    >
+                      <Typography>{this.state.orderID}</Typography>
+                      <Typography>{this.state.custName}</Typography>
+                      <Typography>{this.state.cashName}</Typography>
+                      <Typography>{this.state.orderItems}</Typography>
+                      <Typography style={{color:this.state.fontColor}}>{this.state.status}</Typography>
+                    </Grid>
+
+                  </Grid>
+                </div>
+              </Grid>
+
+            {this.state.fontColor === "red" ? <img src={cooking}style={{width:'150px', height:'180px'}}></img> : <img src={bag} style={{width:'100px', height:'130px'}}></img> } 
           </div>
 
         )
