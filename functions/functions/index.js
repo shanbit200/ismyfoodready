@@ -13,8 +13,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const config = require('./config.json');
 
-
-
 const projectId = process.env.GCLOUD_PROJECT;
 const region = 'us-west3';
 
@@ -33,14 +31,14 @@ exports.dbUpd = functions.database.ref('/').onUpdate((change, context) => {
 
         //{"Ready":"Ready","1":"6502457925"}
 
-        string = string.replace(/\"/g,'')
+        string = string.replace(/\"/g,"")
         console.log(string);
         //var pat = /\d{10}
         var regex = string.match(/\d{10}/);
 
         console.log(regex)
 
-        if(regex.length > 0){
+        if(regex){
 
 
           // Requiring the values to send
@@ -49,7 +47,7 @@ exports.dbUpd = functions.database.ref('/').onUpdate((change, context) => {
             getPhoneTo = '+1'+regex[0],
             getPhoneFrom = "+12694977582",
             accountSid = 'AC29739be887c8441945af9c1279d74bf2',
-            authToken  = 'c7d1eeefcc5b0ca88e9f78e7e640c917';
+            authToken  = '8c2637cd615f97d0391b3107cd47b277';
 
           //require the Twilio module and create a REST client
           let client = require('twilio')(accountSid, authToken);

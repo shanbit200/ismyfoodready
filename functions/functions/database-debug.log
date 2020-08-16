@@ -1,7 +1,7 @@
-21:09:45.587 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-21:09:45.694 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
-21:11:20.326 [Thread-1] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-21:11:20.332 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: is-order-ready
-21:11:20.342 [NamespaceSystem-akka.actor.default-dispatcher-18] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for is-order-ready
-21:11:20.342 [NamespaceSystem-akka.actor.default-dispatcher-18] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for is-order-ready
-21:11:20.345 [Thread-1] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+21:56:20.580 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+21:56:20.688 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+21:56:48.728 [Thread-1] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+21:56:48.734 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: is-order-ready
+21:56:48.741 [NamespaceSystem-akka.actor.default-dispatcher-10] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for is-order-ready
+21:56:48.742 [NamespaceSystem-akka.actor.default-dispatcher-10] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for is-order-ready
+21:56:48.745 [Thread-1] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
