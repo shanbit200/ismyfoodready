@@ -50,15 +50,26 @@ export default class BackendHelpers {
   };
 
   static getOrder = (ID) => {
-    console.log(ID)
-    var ref = firebase.database().ref('store')
-    ref.once("value")
-      .then(function(snapshot) {
-        var key = snapshot.key; // "ada"
-        console.log(key)
-  });
-
+    return new Promise((res, err) => {
+      console.log(ID)
+      let allData = firebase.database().ref('/store').once('value')
+      .then((snapshot) => {
+        let stores = snapshot.val();
+        Object.keys(stores).forEach(storeKey => {
+          let orders = stores[storeKey].orders;
+          Object.keys(orders).forEach(orderKey => {
+            console.log(orders[orderKey].orderID)
+            if(orders[orderKey].orderID === ID)
+            {
+              res(orders[orderKey]);
+            }
+          })
+        })
+        err("order not found");
+      })
+    })
   }
+
   static deleteOrder = (storeName, itemId) => {
     firebase
       .database()

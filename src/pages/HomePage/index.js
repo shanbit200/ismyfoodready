@@ -17,14 +17,6 @@ class HomePage extends Component {
     super(props);
     this.state = {
       orderID: "",
-      orderFakeDB: {
-        "1014": {
-          customerName: "Alan Brilliant",
-          cashierName: "Joe Biden",
-          orderStatus: "Being Prepared",
-          item: "Hundreds of nuggets",
-        }
-      },
       isValid: false,
       custName: "",
       cashName: "",
@@ -36,14 +28,13 @@ class HomePage extends Component {
   alertOnClick = () => {
     console.log(logo)
     if (this.state.orderID !== "") {
-      BackendHelpers.getOrder(this.state.orderID)
-      if (this.state.orderID in this.state.orderFakeDB) {
-        console.log(this.state.orderFakeDB['1014']);
-        this.setState({ custName: this.state.orderFakeDB['1014'].customerName, cashName: this.state.orderFakeDB['1014'].cashierName, status: this.state.orderFakeDB['1014'].orderStatus, orderItems: this.state.orderFakeDB['1014'].item })
-        this.setState({isValid:true})
-      } else {
-        alert("Wee woo, wrong order number!")
-      }
+      BackendHelpers.getOrder(this.state.orderID).then(res => {
+        console.log(res)
+        this.setState({ custName: res.custName, cashName: res.cashName, status: res.status, orderItems: res.orderItems })
+        this.setState({isValid: true})
+      }).catch(err => {
+        alert(err)
+      })
     } else {
       alert("Joe Biden will take all of your melanin")
     }
