@@ -3,11 +3,21 @@
     flex-direction:row;
     justify-content: space-between;
     align-self: center;
+    padding: 3px;
+    margin: 3px;
+
+
+}
+
+.ready{
+    background-color: greenyellow;
+
 }
 
 .floxy-col{
     display: flex;
     flex-direction:column;
     align-content: space-around;
+    
     
 }

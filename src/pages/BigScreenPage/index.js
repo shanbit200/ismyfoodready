@@ -96,11 +96,13 @@ class BigScreenPage extends React.Component {
         <div className="flexy-col">
           {this.state.orders.map((order) => {
             return (
-              <div className="flexy-row">
+              <div className= {(order['status'] === 'Ready') ? "flexy-row ready" : "flexy-row" }>
+                <div>
                 <Typography variant="h6">
                   <b>{order['customer']}</b>
                 </Typography>
-                <Typography variant="h6">{order['item']}</Typography>
+                <Typography variant="Subtitle 1">{order['orderId']}</Typography>
+                </div>
                 <Typography variant="h6">{order['status']}</Typography>
               </div>
             );
