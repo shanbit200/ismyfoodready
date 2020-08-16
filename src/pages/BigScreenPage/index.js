@@ -103,6 +103,8 @@ class BigScreenPage extends React.Component {
                       <b>In Progress</b>
             </Typography>
           </div>
+          <Divider height='20px'></Divider>
+
         {this.state.orders.map((order) => {
             if((order['status'] !== 'Ready')  ){
             return (
@@ -123,7 +125,7 @@ class BigScreenPage extends React.Component {
                       <b>Ready</b>
             </Typography>
           </div>
-          <Divider height='2px'></Divider>
+          <Divider height='20px'></Divider>
           {this.state.orders.map((order) => {
             if((order['status'] === 'Ready')  ){
             return (
