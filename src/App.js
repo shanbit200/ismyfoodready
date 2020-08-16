@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import AddStorePage from './pages/AddStorePage';
 import EmployeePage from './pages/EmployeePage';
 import AddModifyOrdersPage from './pages/AddModifyOrdersPage';
-import BigScreenPage from './pages/BigScreenPage'
+import BigScreenPage from './pages/BigScreenPage';
 import HomeAppBar from './components/HomeAppBar';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
@@ -31,11 +31,6 @@ class App extends Component {
     firebase.initializeApp(config);
 
     this.state = {
-<<<<<<< HEAD
-    };
-
-  
-=======
       user: undefined,
       initialized: false,
     };
@@ -64,7 +59,6 @@ class App extends Component {
         this.setState({ initialized: true });
       }
     });
->>>>>>> ac385c43626a210de9486933c68541edb3b02f3d
   }
 
   signIn = () => {
@@ -106,10 +100,7 @@ class App extends Component {
               )}
             />
             <Route exact path="/addStore" render={() => <AddStorePage />} />
-<<<<<<< HEAD
             <Route exact path="/BigScreen" render={() => <BigScreenPage />} />
-            <Route exact path="/AddModifyOrders" render={() => <AddModifyOrdersPage />} />
-=======
             <Route
               exact
               path="/AddModifyOrders"
@@ -127,7 +118,6 @@ class App extends Component {
                 />
               )}
             />
->>>>>>> ac385c43626a210de9486933c68541edb3b02f3d
           </Switch>
         </Router>
       </div>
