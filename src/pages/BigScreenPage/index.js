@@ -58,11 +58,7 @@ class BigScreenPage extends React.Component {
               status: orderObject[key]['status'],
             };
 
-            if (
-              !this.state.announcedOrderIds.includes(
-                orderObject[key]['orderID']
-              )
-            ) {
+            if (!this.state.announcedOrderIds.includes(currOrder.orderId)) {
               if (
                 currOrder.orderId &&
                 currOrder.status &&
