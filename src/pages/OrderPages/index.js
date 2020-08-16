@@ -100,7 +100,7 @@ export default class OrderPage extends Component{
                 </div>
               </Grid>
 
-            {this.state.fontColor === "red" ? <img src={cooking}style={{width:'150px', height:'180px'}}></img> : <img src={bag} style={{width:'100px', height:'130px'}}></img> } 
+            {this.state.fontColor === "red" ? <img src={cooking}style={{width:'100px', height:'130px'}}></img> : <img src={bag} style={{width:'100px', height:'130px'}}></img> } 
           </div>
 
         )
