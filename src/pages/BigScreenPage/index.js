@@ -7,6 +7,7 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Divider
 } from '@material-ui/core';
 import BackendHelpers from '../../utils/BackendHelpers';
 import { withSnackbar } from 'notistack';
@@ -106,13 +107,10 @@ class BigScreenPage extends React.Component {
             if((order['status'] !== 'Ready')  ){
             return (
               <div className= {"flexy-row " }>
-                <div>
                 <Typography variant="h6">
                   <b>{order['customer']}</b>
                 </Typography>
-                <Typography variant="Subtitle 1">{order['orderId']}</Typography>
-                </div>
-                <Typography variant="h6">{order['status']}</Typography>
+                <Typography variant="h6">{order['orderId']}</Typography>
               </div>
             );}
           })}
@@ -125,6 +123,7 @@ class BigScreenPage extends React.Component {
                       <b>Ready</b>
             </Typography>
           </div>
+          <Divider height='2px'></Divider>
           {this.state.orders.map((order) => {
             if((order['status'] === 'Ready')  ){
             return (
@@ -132,13 +131,10 @@ class BigScreenPage extends React.Component {
                 
 
                 
-                <div>
                 <Typography variant="h6">
                   <b>{order['customer']}</b>
                 </Typography>
-                <Typography variant="Subtitle 1">{order['orderId']}</Typography>
-                </div>
-                <Typography variant="h6">{order['status']}</Typography>
+                <Typography variant="h6">{order['orderId']}</Typography>
               </div>
             );}
           })}
