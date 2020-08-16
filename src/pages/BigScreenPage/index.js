@@ -82,10 +82,11 @@ class BigScreenPage extends React.Component {
     const { classes } = this.props;
 
     if (this.state.ordersToAnnounce.length > 0) {
-      this.state.ordersToAnnounce.forEach((order) => {
+      this.state.ordersToAnnounce.forEach((order, index) => {
         var msg = new SpeechSynthesisUtterance();
         msg.text = 'Order ' + order.orderId + 'ready for' + order.customer;
         window.speechSynthesis.speak(msg);
+        this.state.ordersToAnnounce.splice(index, 1);
         this.state.announcedOrderIds.push(order.orderID);
       });
     }
