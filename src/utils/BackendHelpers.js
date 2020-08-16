@@ -52,8 +52,7 @@ export default class BackendHelpers {
   static getOrder = (ID) => {
     return new Promise((res, err) => {
       console.log(ID)
-      let allData = firebase.database().ref('/store').once('value')
-      .then((snapshot) => {
+      let allData = firebase.database().ref('/store').on("value", snapshot => {
         let stores = snapshot.val();
         Object.keys(stores).forEach(storeKey => {
           let orders = stores[storeKey].orders;
@@ -66,6 +65,7 @@ export default class BackendHelpers {
           })
         })
         err("order not found");
+
       })
     })
   }

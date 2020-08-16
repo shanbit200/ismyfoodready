@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../../images/logo.png'
-import { ReactSVG } from 'react-svg'
+import OrderPage  from '../OrderPages'
 import {
   withStyles,
   Typography,
@@ -22,6 +22,7 @@ class HomePage extends Component {
       cashName: "",
       status: "",
       orderItems: "",
+      fontColor:"",
     };
   }
 
@@ -31,6 +32,12 @@ class HomePage extends Component {
       BackendHelpers.getOrder(this.state.orderID).then(res => {
         console.log(res)
         this.setState({ custName: res.custName, cashName: res.cashName, status: res.status, orderItems: res.orderItems })
+        if(res.status === "Ready"){
+          this.setState({fontColor:"green"})
+        }else{
+          this.setState({fontColor:"red"})
+        }
+        console.log(this.state.fontColor)
         this.setState({isValid: true})
       }).catch(err => {
         alert(err)
@@ -57,16 +64,9 @@ class HomePage extends Component {
 
         <div className={classes.centerContainer}>
           <img className={classes.logo} src={logo} alt="logo"></img>
-          <div className={classes.title}>
-            <ReactSVG src={classes.logo} />
-          </div>
           { this.state.isValid ? 
             <div>
-              <Typography>Order ID: {this.state.orderID}</Typography>
-              <Typography>Customer Name: {this.state.custName}</Typography>
-              <Typography>Cashier Name: {this.state.cashName}</Typography>
-              <Typography>Item Ordered: {this.state.orderItems}</Typography>
-              <Typography>Order Status: {this.state.status}</Typography> 
+              <OrderPage custname={this.state.custName} cashname={this.state.cashName} orderid={this.state.orderID} status={this.state.status} orderitems={this.state.orderItems} fontcolor={this.state.fontColor}></OrderPage>
               <Button
               variant="contained"
               onClick={() => this.goBack()}
@@ -81,12 +81,14 @@ class HomePage extends Component {
                 variant="outlined"
                 onChange={(e) => this.setOrder(e.target.value)}
               />
-              <Fab
-                className={classes.bigButton}
+              <div>
+              <Button
                 onClick={() => this.alertOnClick()}
+                variant="contained"
               >
                 Big Button
-              </Fab>
+              </Button>
+              </div>
             </div>
 
           }
@@ -123,8 +125,8 @@ const styles = () => {
       },
     },
     logo: {
-      width: "500px",
-      height: "500px"
+      width: "200px",
+      height: "200px"
     }
   };
 };
