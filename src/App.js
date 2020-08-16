@@ -3,13 +3,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import firebase from 'firebase';
 import HomePage from './pages/HomePage';
 import AddStorePage from './pages/AddStorePage';
-import EmployeePage from './pages/EmployeePage';
 import AddModifyOrdersPage from './pages/AddModifyOrdersPage';
-import BigScreenPage from './pages/BigScreenPage';
 import HomeAppBar from './components/HomeAppBar';
 import { Switch } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
-import BackendHelpers from './utils/BackendHelpers';
 
 /* eslint react/no-direct-mutation-state: "off"*/
 
@@ -32,39 +29,14 @@ class App extends Component {
 
     this.state = {
       user: undefined,
-      initialized: false,
     };
 
-    firebase.auth().onAuthStateChanged((user) => {
-      // This will be called when a user logs in, we'll get their info here
-      if (user) {
-        BackendHelpers.getStore(user.email)
-          .then((result) => {
-            this.setState({
-              user: {
-                name: user.displayName,
-                email: user.email,
-                uid: user.uid,
-                storeName: result.storeName,
-                storeAddress: result.storeAddress,
-              },
-              initialized: true,
-            });
-          })
-          .catch((error) => {
-            alert(error);
-            firebase.auth().signOut();
-          });
-      } else {
-        this.setState({ initialized: true });
-      }
-    });
+
   }
 
-  signIn = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
-  };
+  componentDidMount() {
+    // Do stuff on mount here
+  }
 
   render() {
     return (
@@ -100,36 +72,7 @@ class App extends Component {
               )}
             />
             <Route exact path="/addStore" render={() => <AddStorePage />} />
-            <Route
-              exact
-              path="/BigScreen"
-              render={() => (
-                <BigScreenPage
-                  storeName={this.state.user ? this.state.user.storeName : null}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/AddModifyOrders"
-              render={() => (
-                <AddModifyOrdersPage
-                  storeName={this.state.user ? this.state.user.storeName : null}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/employeeDashboard"
-              render={() => (
-                <EmployeePage
-                  signIn={() => this.signIn()}
-                  signOut={() => firebase.auth().signOut()}
-                  user={this.state.user}
-                  initialized={this.state.initialized}
-                />
-              )}
-            />
+            <Route exact path="/AddModifyOrders" render={() => <AddModifyOrdersPage />} />
           </Switch>
         </Router>
       </div>

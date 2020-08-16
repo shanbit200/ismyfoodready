@@ -65,7 +65,7 @@ class HomePage extends Component {
         <div className={classes.centerContainer}>
           <img className={classes.logo} src={logo} alt="logo"></img>
           { this.state.isValid ? 
-            <div>
+            <div style={{paddingTop:'100px'}}>
               <OrderPage custname={this.state.custName} cashname={this.state.cashName} orderid={this.state.orderID} status={this.state.status} orderitems={this.state.orderItems} fontcolor={this.state.fontColor}></OrderPage>
               <Button
               variant="contained"
@@ -75,19 +75,19 @@ class HomePage extends Component {
               </Button>
             </div>
             :
-            <div>
+            <div style={{paddingTop:'80px'}}>
               <TextField id="outlined-basic"
                 label="Order No."
                 variant="outlined"
                 onChange={(e) => this.setOrder(e.target.value)}
               />
-              <div>
-              <Button
-                onClick={() => this.alertOnClick()}
-                variant="contained"
-              >
-                Big Button
-              </Button>
+              <div style={{paddingTop:'30px'}}>
+                <Button
+                  onClick={() => this.alertOnClick()}
+                  variant="contained"
+                >
+                  Big Button
+                </Button>
               </div>
             </div>
 
