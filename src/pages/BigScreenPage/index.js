@@ -7,12 +7,15 @@ import {
   TextField,
   CssBaseline,
   Button,
+  Divider
 } from '@material-ui/core';
 import BackendHelpers from '../../utils/BackendHelpers';
 import { withSnackbar } from 'notistack';
 import Select from 'react-select';
 import firebase from 'firebase';
 import './App.css';
+import bag from '../../images/bag.png'
+import cooking from '../../images/cooking.gif'
 
 const styles = () => {
   return {
@@ -92,22 +95,53 @@ class BigScreenPage extends React.Component {
     }
 
     return (
-      <div className={classes.page}>
-        <div className="flexy-col">
-          {this.state.orders.map((order) => {
+      <div className = "flexy-row">
+        <div className="flexy-col long-box">
+        <div className = "flexy-row-short">
+          <img src = {cooking} alt = "bag" height="100" width="100"/>
+            <Typography variant="h1">
+                      <b>In Progress</b>
+            </Typography>
+          </div>
+          <Divider height='20px'></Divider>
+
+        {this.state.orders.map((order) => {
+            if((order['status'] !== 'Ready')  ){
             return (
-              <div className= {(order['status'] === 'Ready') ? "flexy-row ready" : "flexy-row" }>
-                <div>
+              <div className= {"flexy-row " }>
                 <Typography variant="h6">
                   <b>{order['customer']}</b>
                 </Typography>
-                <Typography variant="Subtitle 1">{order['orderId']}</Typography>
-                </div>
-                <Typography variant="h6">{order['status']}</Typography>
+                <Typography variant="h6">{order['orderId']}</Typography>
               </div>
-            );
+            );}
           })}
         </div>
+        
+        <div className="flexy-col long-box">
+          <div className = "flexy-row-short">
+          <img src = {bag} alt = "bag" height="100" width="100"/>
+            <Typography variant="h1">
+                      <b>Ready</b>
+            </Typography>
+          </div>
+          <Divider height='20px'></Divider>
+          {this.state.orders.map((order) => {
+            if((order['status'] === 'Ready')  ){
+            return (
+              <div className= {"flexy-row ready" }>
+                
+
+                
+                <Typography variant="h6">
+                  <b>{order['customer']}</b>
+                </Typography>
+                <Typography variant="h6">{order['orderId']}</Typography>
+              </div>
+            );}
+          })}
+        </div>
+        
       </div>
     );
   }

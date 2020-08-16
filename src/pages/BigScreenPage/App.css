@@ -8,10 +8,24 @@
 
 
 }
+.flexy-row-short{
+    display: flex;
+    flex-direction:row;
+    justify-content: flex-start;
+    align-self: center;
+    padding: 3px;
+    margin: 3px;
+
+
+}
 
 .ready{
     background-color: greenyellow;
 
+}
+
+.long-box{
+    width:45vw;
 }
 
 .floxy-col{
