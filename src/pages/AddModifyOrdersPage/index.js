@@ -77,14 +77,16 @@ class AddTermPage extends React.Component {
         let currItems = snapshot.val();
         if (currItems) {
           Object.keys(currItems).forEach((itemKey) => {
+            let item = currItems[itemKey];
+            item.databaseId = itemKey;
             if (
               currItems[itemKey] &&
               currItems[itemKey].status &&
               currItems[itemKey].status == 'Ready'
             ) {
-              this.state.inProgressOrders.push(currItems[itemKey]);
+              this.state.inProgressOrders.push(item);
             } else {
-              this.state.readyOrders.push(currItems[itemKey]);
+              this.state.readyOrders.push(item);
             }
           });
         }
@@ -194,7 +196,7 @@ class AddTermPage extends React.Component {
                   ).then((databaseId) => {
                     this.state.inProgressOrders.push({
                       databaseId,
-                      orderId: id,
+                      orderID: id,
                       storeName: this.state.storeName,
                       custName: this.state.CustomerName,
                       cashName: this.state.CashierName,
@@ -288,7 +290,7 @@ class AddTermPage extends React.Component {
                         this.state.readyOrders.splice(index, 1);
                         BackendHelpers.deleteOrder(
                           order.storeName,
-                          order.itemId
+                          order.databaseId
                         );
                       }}
                       size="small"
@@ -321,29 +323,4 @@ class AddTermPage extends React.Component {
   }
 }
 
-const colourStyles = {
-  control: (styles) => ({
-    ...styles,
-    backgroundColor: '#F7F7F7',
-    color: 'black',
-    width: 400,
-    marginTop: 10,
-  }),
-  option: (styles, { isDisabled, isFocused, isSelected }) => {
-    return {
-      ...styles,
-      backgroundColor: isDisabled
-        ? null
-        : isSelected
-        ? 'grey'
-        : isFocused
-        ? '#F7F7F7'
-        : null,
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: !isDisabled && (isSelected ? 'grey' : 'white'),
-      },
-    };
-  },
-};
 export default withStyles(styles)(AddTermPage);

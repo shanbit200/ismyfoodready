@@ -87,6 +87,7 @@ class BigScreenPage extends React.Component {
   render() {
     if (this.state.ordersToAnnounce.length > 0) {
       this.state.ordersToAnnounce.forEach((order, index) => {
+        console.log('here')
         var msg = new SpeechSynthesisUtterance();
         msg.text = 'Order ' + order.orderId + 'ready for' + order.customer;
         window.speechSynthesis.speak(msg);
