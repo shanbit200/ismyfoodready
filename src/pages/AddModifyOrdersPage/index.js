@@ -11,6 +11,7 @@ import {
   CardActions,
   CardContent,
 } from '@material-ui/core';
+import firebase from 'firebase';
 import Select from 'react-select';
 import BackendHelpers from '../../utils/BackendHelpers';
 
@@ -65,7 +66,29 @@ class AddTermPage extends React.Component {
       defSnack: false,
       inProgressOrders: [],
       readyOrders: [],
+      storeName: props.storeName ? props.storeName : 'Armadillo Willys',
     };
+
+    firebase
+      .database()
+      .ref('/store/' + this.state.storeName + '/orders')
+      .once('value')
+      .then((snapshot) => {
+        let currItems = snapshot.val();
+        if (currItems) {
+          Object.keys(currItems).forEach((itemKey) => {
+            if (
+              currItems[itemKey] &&
+              currItems[itemKey].status &&
+              currItems[itemKey].status == 'Ready'
+            ) {
+              this.state.inProgressOrders.push(currItems[itemKey]);
+            } else {
+              this.state.readyOrders.push(currItems[itemKey]);
+            }
+          });
+        }
+      });
   }
 
   handleParentChange = (parent) => {
@@ -81,9 +104,7 @@ class AddTermPage extends React.Component {
   };
 
   render() {
-    const { classes, user } = this.props;
-
-    const storeName = user && user.storeName ? user.storeName : "Burger King";
+    const { classes } = this.props;
 
     return (
       <div className={classes.page}>
@@ -163,7 +184,7 @@ class AddTermPage extends React.Component {
                     .toUpperCase();
                   BackendHelpers.addOrder(
                     //TODO Populate with the real name
-                    storeName,
+                    this.state.storeName,
                     id,
                     this.state.CustomerName,
                     this.state.CashierName,
@@ -174,7 +195,7 @@ class AddTermPage extends React.Component {
                     this.state.inProgressOrders.push({
                       databaseId,
                       orderId: id,
-                      storeName: storeName,
+                      storeName: this.state.storeName,
                       custName: this.state.CustomerName,
                       cashName: this.state.CashierName,
                       orderItems: this.state.OrderItems,
@@ -186,7 +207,7 @@ class AddTermPage extends React.Component {
                       CustomerName: '',
                       CashierName: '',
                       OrderItems: '',
-                      PhoneNumber: ''
+                      PhoneNumber: '',
                     });
                   });
                 }}
@@ -265,7 +286,10 @@ class AddTermPage extends React.Component {
                       onClick={() => {
                         this.forceUpdate();
                         this.state.readyOrders.splice(index, 1);
-                        BackendHelpers.deleteOrder(order.storeName, order.itemId)
+                        BackendHelpers.deleteOrder(
+                          order.storeName,
+                          order.itemId
+                        );
                       }}
                       size="small"
                     >
