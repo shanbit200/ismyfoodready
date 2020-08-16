@@ -55,4 +55,33 @@ export default class BackendHelpers {
       .ref('/store/' + storeName + '/orders/' + itemId)
       .remove();
   };
+
+  static getStore = (userEmail) => {
+    return new Promise((res, err) => {
+      firebase
+        .database()
+        .ref('/store')
+        .once('value')
+        .then((snapshot) => {
+          const stores = snapshot.val();
+          Object.keys(stores).forEach((storeName) => {
+            if (
+              stores[storeName].data &&
+              stores[storeName].data.authorizedEmployees
+            ) {
+              const emailList = stores[storeName].data.authorizedEmployees;
+              Object.keys(emailList).forEach((index) => {
+                if (userEmail === emailList[index]) {
+                  res({
+                    storeName: storeName,
+                    storeAddress: stores[storeName].data.address,
+                  });
+                }
+              });
+            }
+          });
+          err('User not registered in any stores.');
+        });
+    });
+  };
 }
